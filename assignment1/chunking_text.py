@@ -11,7 +11,7 @@ import pythainlp
 from pythainlp import sent_tokenize
 
 # This can be any text file 
-thai_text = 'text.txt'
+thai_text = 'dummy_text.txt'
 
 # function for counting total number of characters in text
 def count(list):
