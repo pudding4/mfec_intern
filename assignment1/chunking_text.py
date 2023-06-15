@@ -55,7 +55,7 @@ def chunks(text_to_chunk, size = 1000):
     final_chunks.append(chunk_1k_string)
 
     # write to file everytime
-    file = open("chunk_file", "w")
+    file = open("outputted_file", "w")
     for i in final_chunks:
         file.write(i + "\n\n\n")
     
@@ -67,7 +67,7 @@ def chunks(text_to_chunk, size = 1000):
 if __name__ == "__main__":
 
     # This can be any text file 
-    thai_text = 'dummy_text.txt'
+    thai_text = 'test_text/dummy_text.txt'
 
     # default size of 1000
     chunked_text = chunks(thai_text) 
