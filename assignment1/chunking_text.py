@@ -10,9 +10,6 @@
 import pythainlp 
 from pythainlp import word_tokenize
 
-# This can be any text file 
-thai_text = 'dummy_text.txt'
-
 # print the length of each chunks
 def bytes_array(arr):
     length_output = []
@@ -29,12 +26,21 @@ def count(list):
 
 # function for splitting the content of the file into 1000 (1KB)
 # returns a list of 1k bytes
-def chunks(list, size = 1000):
+def chunks(text_to_chunk, size = 1000):
+
+    content = '' # will contain whitespaces
+    # open and read in the content of the text file
+    with open(text_to_chunk) as f:
+        content = f.read()
+    f.close()
+    # content from the file gets tokenized by words
+    tokenized_list = word_tokenize(content, keep_whitespace=False)
+
     total = 0
     final_chunks = [] # will be split into array of 1kb 
     chunk_1k_string = ""
 
-    for snippet in list:   
+    for snippet in tokenized_list:   
 
         if len(chunk_1k_string) + len(snippet) <= size: 
             total += len(snippet)
@@ -47,22 +53,22 @@ def chunks(list, size = 1000):
 
     # append the final chunk (which most likely will be less than 1KB) to the end of the list
     final_chunks.append(chunk_1k_string)
-    #print(len("".join(str(x) for x in final_chunks)))
-    #print(final_chunks)
+
+    # write to file everytime
+    file = open("chunk_file", "w")
+    for i in final_chunks:
+        file.write(i + "\n\n\n")
+    
+    file.close()
+
     return final_chunks
     
-content = '' # will contain whitespaces
-# open and read in the content of the text file
-with open(thai_text) as f:
-    content = f.read()
-
 # will only run as a script and will not be run through imports
 if __name__ == "__main__":
 
-    # content from the file gets tokenized by words
-    list_of_content = word_tokenize(content, keep_whitespace=False)
-    one_kb_arr = chunks(list_of_content)
-    total = 0
-    bytes_array(one_kb_arr)
-    
-f.close() # close the file
+    # This can be any text file 
+    thai_text = 'dummy_text.txt'
+
+    # default size of 1000
+    chunked_text = chunks(thai_text) 
+    bytes_array(chunked_text)
