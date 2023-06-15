@@ -57,6 +57,7 @@ def chunks(text_to_chunk, size = 1000):
     # write to file everytime
     file = open("outputted_file", "w")
     for i in final_chunks:
+        file.write("bytes: " + str(len(i)) + "\n")
         file.write(i + "\n\n\n")
     
     file.close()
