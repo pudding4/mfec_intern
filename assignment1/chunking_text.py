@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # content from the file gets tokenized by words
     list_of_content = word_tokenize(content, keep_whitespace=False)
     one_kb_arr = chunks(list_of_content)
+    total = 0
     bytes_array(one_kb_arr)
     
-
 f.close() # close the file
