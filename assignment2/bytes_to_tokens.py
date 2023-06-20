@@ -18,16 +18,26 @@ def num_tokens_from_string(string: str, encoding_name: str) -> int:
     num_tokens = len(encoding.encode(string))
     return num_tokens
 
-# main function for 1000 bytes to 1000 tokens
+# main function for bytes to ~1000 tokens
 def bytes_to_tokens(text):
     encoding_name = 'gpt-3.5-turbo'
     arr_bytes_chunk = chunks(text)
     final_arr = []
+    encoding = tiktoken.encoding_for_model(encoding_name)
+
+    # write to file everytime
+    file = open("outputted_file", "a")
+    
     # tokenized each string in the splitted array
     for token in arr_bytes_chunk:
         final_arr.append(num_tokens_from_string(token, encoding_name))
+        file.write("tokens: " + str(num_tokens_from_string(token, encoding_name)) + "\n")
+        file.write(str(encoding.encode(token)) + "\n\n\n")
+    file.close()
+
     return final_arr
 
+# will only run as a script and will not be run through imports
 if __name__ == "__main__":
     # This can be any text file 
     thai_text = 'test_text/dummy_text.txt'
