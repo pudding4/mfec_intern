@@ -8,7 +8,7 @@ import numpy as np
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
-text = clip.tokenize(["this image contain a text", "this image does NOT contatin a text"])
+text = clip.tokenize(["image with text", "image with NO text"])
 
 # preprocess functions
 def preprocess_image_func(image_path):
@@ -20,15 +20,22 @@ def preprocess_image_func(image_path):
 path = "/mnt/c/Users/Mon/Desktop/mfec_intern/assignment4/text_inside_image"
 
 # images for testing
-image_with_text = preprocess_image_func(path + "/2.jpg") # should print --> "This image most likely contain text!"
-image_without_text = preprocess_image_func(path + "/no_text_dog.jpg") # should print --> "This image most likely does NOT contain text!"
+image_with_text = preprocess_image_func(path + "/image_with_text4.jpg") # should print --> "This image most likely contain text!"
+image_without_text = preprocess_image_func(path + "/no_text4.jpg") # should print --> "This image most likely does NOT contain text!"
 
 with torch.no_grad():
-    image_features = model.encode_image(image_without_text)
+    image_features = model.encode_image(image_with_text)
     text_features = model.encode_text(text)
     
-    logits_per_image, logits_per_text = model(image_without_text, text)
+    logits_per_image, logits_per_text = model(image_with_text, text)
     probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+
+# with torch.no_grad():
+#     image_features = model.encode_image(image_without_text)
+#     text_features = model.encode_text(text)
+    
+#     logits_per_image, logits_per_text = model(image_without_text, text)
+#     probs = logits_per_image.softmax(dim=-1).cpu().numpy()
 
 # convert numpy array into string
 probs = np.array2string(probs[0], precision=8, separator=' ')
