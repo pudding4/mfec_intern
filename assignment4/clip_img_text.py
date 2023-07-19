@@ -16,11 +16,12 @@ def preprocess_image_func(image_path):
     preprocess_image = preprocess(image).unsqueeze(0).to(device)
     return preprocess_image
 
+# path to images
 path = "/mnt/c/Users/Mon/Desktop/mfec_intern/assignment4/text_inside_image"
 
 # images for testing
-image_with_text = preprocess_image_func(path + "/2.jpg")
-image_without_text = preprocess_image_func(path + "/no_text_dog.jpg")
+image_with_text = preprocess_image_func(path + "/2.jpg") # should print --> "This image most likely contain text!"
+image_without_text = preprocess_image_func(path + "/no_text_dog.jpg") # should print --> "This image most likely does NOT contain text!"
 
 with torch.no_grad():
     image_features = model.encode_image(image_without_text)
