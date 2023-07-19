@@ -13,6 +13,10 @@ model, preprocess = clip.load("ViT-B/32", device=device)
 text = clip.tokenize(["an airplane with a clear sky", "many books on a book shelf", "buildings with clear sky", "a black car", "a yellow fish underwater", 
                       "food on a table", "bright orange frog", "a panda", "many people in one location", "person texting on a phone"]).to(device)
 
+wrong_text = clip.tokenize(["a cat in a box", "a gorilla attacking flowers", "dog eating kibbles in a red bowl"])
+
+one_text = clip.tokenize(["a fish"])
+
 # preprocess functions
 def preprocess_image_func(image_path):
     image = Image.open(image_path)
@@ -35,9 +39,6 @@ for image_file in image_files:
     # print(done.shape)
     preprocessed_images.append(done)
 
-image_dog = preprocess_image_func("dog.jpg")
-image_airplane = preprocess_image_func("airplane.jpg")
-
 # print(preprocessed_images)
 
 # convert to vectors
@@ -57,6 +58,9 @@ with torch.no_grad():
         probs = [[round(p, 6) for p in prob] for prob in probs]  # Round each probability to 6 decimal places
         image_name = os.path.basename(image_files[i])
         print("Label probs:", image_name, probs)
+
+# result = 1 - spatial.distance.cosine([1,2], [1,2])
+# print(result)
 
 # text that we use to describe each images
 # text = clip.tokenize(["an airplane with a clear sky", "many books on a book shelf", "buildings with clear sky", "a black car", "a yellow fish underwater", 
