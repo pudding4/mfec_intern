@@ -1,4 +1,3 @@
-import os
 import torch
 import clip
 from PIL import Image
@@ -8,6 +7,7 @@ import numpy as np
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = clip.load("ViT-B/32", device=device)
 
+# text prompt
 text = clip.tokenize(["image with text", "image with NO text"])
 
 # preprocess functions
@@ -49,6 +49,7 @@ prob_no_text = float(probs_strings[1])
 print("Probability of containing text: ", prob_yes_text)
 print("Probability of containing NO text: ", prob_no_text)
 
+# checking
 if (prob_yes_text > prob_no_text):
     print("This image most likely contain text!")
 elif (prob_yes_text < prob_no_text):
